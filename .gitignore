@@ -1,0 +1,13 @@
+# hidden/temp files
+.DS_Store
+node_modules/
+frontend
+*.tgz
+*.deb
+work
+
+# Xcode project files except for the project file
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+

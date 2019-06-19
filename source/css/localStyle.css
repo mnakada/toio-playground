@@ -1,0 +1,12 @@
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+  font-weight: 300;
+  margin:0;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+  white-space:nowrap;
+  margin-block-end: 0;
+}
