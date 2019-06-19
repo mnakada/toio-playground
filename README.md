@@ -1,4 +1,4 @@
-#toio plyayground
+# toio plyayground
 
 
 
@@ -15,7 +15,7 @@ Sony Interactive Entertainment Inc.の [toio](https://toio.io)の [トイオ・�
 
 
 
-
+## デモビデオ
 [![](https://img.youtube.com/vi/fi6TMiUDdPI/0.jpg)]( https://youtu.be/fi6TMiUDdPI)
 
 
