@@ -8,6 +8,13 @@
 class GraphData {
   constructor(data) {
     Object.assign(this, data);
+    this.lastPoint = null;
+    if(this.curves.length) {
+      this.lastPoint = {
+        x: this.curves[this.curves.length - 1].x,
+        y: this.curves[this.curves.length - 1].y,
+      };
+    }
   }
 
   ChangeCurve(idx, obj) {
@@ -16,6 +23,32 @@ class GraphData {
   }
 
   Add(idx, x, y) {
+    if(idx < 0) {
+      if(this.lastPoint) {
+        const prevCurve = this.curves.length - 1;
+        let x1 = (x - this.lastPoint.x) * 0.3;
+        let y1 = (y - this.lastPoint.y) * 0.3;
+        if(prevCurve >= 0) {
+          x1 = (-this.curves[prevCurve].x2 + x1) / 2;
+          y1 = (-this.curves[prevCurve].y2 + y1) / 2;
+          this.ChangeCurve(prevCurve, { x2: -x1, y2: -y1 });
+        }
+        this.curves.push({
+          sx: this.lastPoint.x,
+          sy: this.lastPoint.y,
+          dx: x,
+          dy: y,
+          x1: x1,
+          y1: y1,
+          type1: 'auto',
+          x2: (this.lastPoint.x - x) * 0.3,
+          y2: (this.lastPoint.y - y) * 0.3,
+          type2: 'auto',
+        });
+      }
+      this.lastPoint = { x, y };
+      return;
+    }
     const curve = this.curves[idx];
     let min = 1000;
     let minT = -1;
@@ -60,6 +93,11 @@ class GraphData {
     this.curves.splice(idx - 1, 2, curve);
   }
 
+  Clear() {
+    this.curves = [];
+    this.lastPoint = null;
+  }
+
   BezierPoint(curve, t) {
     const tl = curve.dx - curve.sx;
     const rad1 = Math.atan2(curve.y1, curve.x1);
@@ -90,8 +128,6 @@ class GraphData {
       y: Math.sin(rad) * l * 0.3,
     };
   }
-
-
 }
 
 export default GraphData;

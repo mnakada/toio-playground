@@ -140,29 +140,7 @@
         this.trajectory.position.push(data);
       });
       Socket.on('button', (data) => {
-        if(this.lastPoint) {
-          const prevCurve = this.graph.curves.length - 1;
-          let x1 = (data.x - this.lastPoint.x) * 0.3;
-          let y1 = (data.y - this.lastPoint.y) * 0.3;
-          if(prevCurve >= 0) {
-            x1 = (-this.graph.curves[prevCurve].x2 + x1) / 2;
-            y1 = (-this.graph.curves[prevCurve].y2 + y1) / 2;
-            this.graph.ChangeCurve(this.graph.curves.length - 1, { x2: -x1, y2: -y1 });
-          }
-          this.graph.curves.push({
-            sx: this.lastPoint.x,
-            sy: this.lastPoint.y,
-            dx: data.x,
-            dy: data.y,
-            x1: x1,
-            y1: y1,
-            type1: 'auto',
-            x2: (this.lastPoint.x - data.x) * 0.3,
-            y2: (this.lastPoint.y - data.y) * 0.3,
-            type2: 'auto',
-          });
-        }
-        this.lastPoint = data;
+        this.graph.Add(-1, data.x, data.y);
       });
     },
     methods: {
@@ -196,7 +174,7 @@
         document.body.removeChild(el);
       },
       Clear() {
-        this.$set(this.graph, 'curves', []);
+        this.graph.Clear();
         this.$set(this.trajectory, 'position', []);
         this.$set(this.trajectory, 'point', []);
       },

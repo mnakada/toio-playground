@@ -2,8 +2,9 @@
   <div>
     <svg class="graph-box" @mousemove="$emit('move', $event)" @mouseup="$emit('drop', $event)" :style="`width: ${width}px; height: ${height}px;`">
       <g class="area" :transform="`matrix(${scale.x}, 0, 0, ${scale.y}, ${scale.offsetX}, ${scale.offsetY})`">
+        <rect x="0" y="0" :width="width" :height="height" opacity="0" @mousemove="MouseMove('canvas', -1, $event)" @mousedown="AddStart(-1, $event)" />
         <g class="curves">
-          <g v-for="(ps, idx) of pointS" :key="`curve-${idx}`">
+          <g v-for="(ps, idx) of pointD" :key="`curve-${idx}`">
             <path :d="`M${pointS[idx].x},${pointS[idx].y}C${handleS[idx].x},${handleS[idx].y},${handleD[idx].x},${handleD[idx].y},${pointD[idx].x},${pointD[idx].y}`" :stroke="color" vector-effect="non-scaling-stroke" />
           </g>
         </g>
@@ -26,7 +27,7 @@
           </g>
         </g>
         <g class="curves0">
-          <g v-for="(ps, idx) of pointS" :key="`curve0-${idx}`">
+          <g v-for="(ps, idx) of pointD" :key="`curve0-${idx}`">
             <path :d="`M${pointS[idx].x},${pointS[idx].y}C${handleS[idx].x},${handleS[idx].y},${handleD[idx].x},${handleD[idx].y},${pointD[idx].x},${pointD[idx].y}`" @mousemove="MouseMove('curve', idx, $event)" @mousedown="AddStart(idx, $event)" stroke="white" stroke-width="8" opacity="0" />
           </g>
         </g>
@@ -131,6 +132,10 @@
           return;
         }
         if((ev.key === 'a') || (ev.key === 'A')) {
+          if(this.mouseOverType === 'canvas') {
+            this.$emit('add', -1, this.mouseOverEvent);
+            return;
+          }
           if((this.mouseOverIndex < 0) || (this.mouseOverType !== 'curve')) return;
           this.$emit('add', this.mouseOverIndex, this.mouseOverEvent);
           this.mouseOverIndex = -1;

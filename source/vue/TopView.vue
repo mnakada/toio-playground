@@ -50,6 +50,9 @@
       },
       pointS() {
         const pointS = [];
+        if(!this.data.curves.length && this.data.lastPoint) {
+          pointS.push(this.data.lastPoint);
+        }
         for(const curve of this.data.curves) {
           pointS.push({
             x: curve.sx,
